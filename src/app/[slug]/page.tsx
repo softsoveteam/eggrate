@@ -168,7 +168,7 @@ export async function generateMetadata({
       modifiedTime: dateModified,
       publishedTime: dateModified,
       section: "Egg Rate",
-      images: [{ url: `https://${domain}/og.png`, width: 1200, height: 630, alt: title }],
+      images: [{ url: pageUrl + "/opengraph-image", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",

@@ -188,7 +188,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       modifiedTime: dateModified,
       publishedTime: dateModified,
       section: "अंडे का रेट",
-      images: [{ url: `https://${domain}/og.png`, width: 1200, height: 630, alt: title }],
+      images: [{ url: pageUrl + "/opengraph-image", width: 1200, height: 630, alt: title }],
     },
     twitter: { card: "summary_large_image", title, description, site: "@eggrate", creator: "@eggrate" },
     other: {
