@@ -6,6 +6,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { RateTableWithLoadMore } from "@/components/RateTableWithLoadMore";
 import { PopularCityEggRates } from "@/components/PopularCityEggRates";
 import { DetailPageCharts } from "@/components/DetailPageCharts";
+import { ChartDataSSR } from "@/components/ChartDataSSR";
 import type { EggDataBlock, ChartOne, ChartTwo } from "@/types/egg";
 import type { Metadata } from "next";
 
@@ -344,6 +345,13 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
                 </a>
               </p>
             </div>
+            <ChartDataSSR
+              displayName={displayName}
+              chartOne={chartOne}
+              chartTwo={chartTwo}
+              chartOneLabel={H.priceChart}
+              chartTwoLabel={H.lowHighChart}
+            />
             <DetailPageCharts
               displayName={displayName}
               chartOne={chartOne}

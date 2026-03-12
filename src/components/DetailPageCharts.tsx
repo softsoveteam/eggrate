@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 
+// Charts stay client-only (Recharts needs DOM). Chart data is also output as SSR HTML via ChartDataSSR on the page.
 const PriceChart = dynamic(
   () => import("@/components/PriceChart").then((m) => ({ default: m.PriceChart })),
   {

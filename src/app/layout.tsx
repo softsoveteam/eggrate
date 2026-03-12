@@ -4,6 +4,7 @@ import { getSiteDomain } from "@/lib/utils";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PWAProvider } from "@/components/PWAProvider";
+import { BackToTop } from "@/components/BackToTop";
 import "./globals.css";
 
 const SITE_URL = `https://${getSiteDomain()}`;
@@ -120,6 +121,7 @@ export default async function RootLayout({
           {children}
         </main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

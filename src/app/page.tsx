@@ -4,6 +4,7 @@ import { makeSlug, getSiteDomain } from "@/lib/utils";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { PopularCityEggRates } from "@/components/PopularCityEggRates";
 import { DetailPageCharts } from "@/components/DetailPageCharts";
+import { ChartDataSSR } from "@/components/ChartDataSSR";
 import type { EggDataBlock } from "@/types/egg";
 import type { Metadata } from "next";
 
@@ -282,6 +283,11 @@ export default async function HomePage() {
               </p>
             </div>
 
+            <ChartDataSSR
+              displayName="Today"
+              chartOne={chartOne}
+              chartTwo={chartTwo}
+            />
             <DetailPageCharts
               displayName="Today"
               chartOne={chartOne}
