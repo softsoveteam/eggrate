@@ -343,21 +343,23 @@ export function Header() {
         </nav>
       </div>
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-indigo-600 via-indigo-700 to-indigo-800 pt-20 pb-6 sm:pb-8 text-white shadow-xl">
+      <section
+        className={`relative min-h-[200px] overflow-visible bg-gradient-to-b from-indigo-600 via-indigo-700 to-indigo-800 pt-8 pb-5 sm:pb-6 text-white shadow-xl ${searchOpen && results.length > 0 ? "pb-80 sm:pb-80" : ""}`}
+      >
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-20" aria-hidden>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(255,255,255,0.15)_0%,_transparent_50%)]" />
           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-[radial-gradient(ellipse_80%_80%_at_50%_100%,_rgba(255,255,255,0.08)_0%,_transparent_70%)]" />
         </div>
 
-        <div className="container relative mx-auto max-w-2xl px-4 pt-2 pb-4 text-center">
+        <div className="container relative mx-auto max-w-2xl px-4 pt-0 pb-3 text-center">
           {isHome && (
             <>
               <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
               />
-              <nav aria-label="Breadcrumb" className="mb-2 flex flex-wrap items-center justify-center gap-x-2 text-sm text-white/80">
+              <nav aria-label="Breadcrumb" className="mb-1 flex flex-wrap items-center justify-center gap-x-2 text-sm text-white/80">
                 <Link
                   href="/"
                   className="hover:text-white hover:underline focus:text-white focus:underline"
@@ -378,7 +380,7 @@ export function Header() {
               <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
                 {isHindi ? `आज ${cityName} में अंडा रेट - लाइव बाजार कीमतें और रुझान` : `${cityName} Egg Rate Today - Live NECC Egg Price`}
               </h1>
-              <p className="mb-4 text-base font-medium text-white/90 sm:text-lg">
+              <p className="mb-3 text-base font-medium text-white/90 sm:text-lg">
                 {isHindi ? `आज ${cityName} में अंडा रेट` : `Today Egg Rate in ${cityName}`}
               </p>
             </>
@@ -387,7 +389,7 @@ export function Header() {
               <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
                 {isHindi ? "आज अंडा रेट - लाइव बाजार कीमतें और रुझान" : "Check the Latest Egg Rate Today"}
               </h1>
-              <p className="mb-4 max-w-xl mx-auto text-sm text-white/90 sm:text-base">
+              <p className="mb-3 max-w-xl mx-auto text-sm text-white/90 sm:text-base">
                 {isHindi ? "रोज़ अपडेट होने वाली लाइव अंडा रेट और बाजार कीमतें" : "Keeping up to date with the latest egg rates is easy with this tool"}
               </p>
             </>
