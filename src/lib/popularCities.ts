@@ -1,0 +1,36 @@
+/**
+ * Popular cities/states for the "Popular City Egg Rates" section.
+ * Used on home and detail pages for interlinking.
+ */
+export const POPULAR_CITY_EGG_RATES = [
+  { name: "Barwala", slug: "barwala" },
+  { name: "Namakkal", slug: "namakkal" },
+  { name: "Delhi", slug: "delhi" },
+  { name: "Bangalore", slug: "bengaluru" },
+  { name: "Mumbai", slug: "mumbai" },
+  { name: "Kolkata", slug: "kolkata" },
+  { name: "Hyderabad", slug: "hyderabad" },
+  { name: "Bihar", slug: "bihar" },
+  { name: "Bardhaman", slug: "bardhaman" },
+  { name: "Pune", slug: "pune" },
+  { name: "Ajmer", slug: "ajmer" },
+  { name: "Raipur", slug: "raipur" },
+  { name: "West Bengal", slug: "west-bengal" },
+  { name: "Punjab", slug: "punjab" },
+  { name: "Vijayawada", slug: "vijayawada" },
+  { name: "Ahmedabad", slug: "ahmedabad" },
+  { name: "Brahmapur", slug: "brahmapur" },
+  { name: "Chennai", slug: "chennai" },
+  { name: "Jabalpur", slug: "jabalpur" },
+  { name: "E. Godavari", slug: "e-godavari" },
+  { name: "Hospet", slug: "hospet" },
+  { name: "Chittoor", slug: "chittoor" },
+  { name: "Ludhiana", slug: "ludhiana" },
+  { name: "Mysuru", slug: "mysuru" },
+  { name: "Surat", slug: "surat" },
+  { name: "Vizag", slug: "vizag" },
+  { name: "West Godavari", slug: "west-godavari" },
+  { name: "Warangal", slug: "warangal" },
+  { name: "Allahabad", slug: "allahabad" },
+  { name: "Odisha", slug: "odisha" },
+] as const;
