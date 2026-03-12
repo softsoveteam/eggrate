@@ -6,9 +6,68 @@ import { LowHighChart } from "@/components/LowHighChart";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { PopularCityEggRates } from "@/components/PopularCityEggRates";
 import type { EggDataBlock } from "@/types/egg";
+import type { Metadata } from "next";
 
 // Force SSR: render on server every request for full HTML and best SEO
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const domain = getSiteDomain();
+  const SITE_URL = `https://${domain}`;
+  const title = "Latest Egg Rate Today: NECC Egg Price & Peti Egg Rate | EggRate.net";
+  const description =
+    "Get the latest egg rate today in India with NECC egg price and 1 Peti egg rate. Check daily egg prices by state and city. Stay informed about egg prices across India.";
+  const keywords = [
+    "egg rate",
+    "today egg rate",
+    "necc egg rate today",
+    "egg price today",
+    "egg price",
+    "necc egg rate",
+    "peti egg rate",
+    "egg price India",
+    "daily egg rate",
+    "egg rate by city",
+    "egg rate by state",
+    "egg rate India",
+    "NECC egg price",
+    "egg rate today India",
+    "live egg rate",
+    "egg wholesale price",
+    "egg tray rate",
+  ].join(", ");
+  return {
+    title,
+    description,
+    keywords,
+    authors: [{ name: "EggRate.net", url: SITE_URL }],
+    creator: "EggRate.net",
+    publisher: "EggRate.net",
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    alternates: { canonical: SITE_URL },
+    category: "Finance",
+    openGraph: {
+      type: "website",
+      locale: "en_IN",
+      url: SITE_URL,
+      siteName: "EggRate.net",
+      title: "Latest Egg Rate Today | EggRate.net",
+      description,
+      images: [{ url: `${SITE_URL}/og.png`, width: 1200, height: 630, alt: "EggRate.net - Egg Rate Today India" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Latest Egg Rate Today | EggRate.net",
+      description,
+      site: "@eggrate",
+      creator: "@eggrate",
+    },
+    other: {
+      "geo.region": "IN",
+      "revisit-after": "1 day",
+    },
+  };
+}
 
 function parseChartOne(block: EggDataBlock) {
   const raw = block.chart_one;

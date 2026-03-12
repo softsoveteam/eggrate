@@ -118,6 +118,8 @@ export async function generateMetadata({
   const base = getBaseSlug(slug);
   const name = base.replace(/-/g, " ");
   const cityName = capitalizePlace(name);
+  const domain = getSiteDomain();
+  const pageUrl = `https://${domain}/${slug}`;
   const title = isDateSlug(base)
     ? `Egg Price on ${base} - Egg Rate ${base}`
     : `Today Egg Rate in ${cityName}: Live NECC Egg Price`;
@@ -125,18 +127,59 @@ export async function generateMetadata({
     ? `Looking for egg rate on ${base}? Get the egg prices on ${base} with our comprehensive list, and graphical chart.`
     : `Check today's egg rate in ${cityName} with live NECC prices updated daily. Get egg price per piece, tray & peti across all major markets in ${cityName} realtime.`;
   const dateModified = getDateModifiedISO();
+  const keywords = [
+    "egg rate",
+    "today egg rate",
+    "necc egg rate today",
+    "egg price today",
+    "egg price",
+    "necc egg rate",
+    "peti egg rate",
+    "egg price India",
+    "daily egg rate",
+    "egg rate by city",
+    "egg rate by state",
+    "egg rate India",
+    "NECC egg price",
+    "live egg rate",
+    ...(isDateSlug(base) ? [] : [`${cityName} egg rate`, `egg rate ${cityName}`, `${cityName} egg price today`]),
+  ];
   return {
     title,
     description,
+    keywords: keywords.join(", "),
+    authors: [{ name: "EggRate.net", url: `https://${domain}` }],
+    creator: "EggRate.net",
+    publisher: "EggRate.net",
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    alternates: { canonical: pageUrl },
+    category: "Finance",
     openGraph: {
       title,
       description,
       type: "article",
+      url: pageUrl,
+      siteName: "EggRate.net",
+      locale: "en_IN",
       modifiedTime: dateModified,
+      publishedTime: dateModified,
+      section: "Egg Rate",
+      images: [{ url: `https://${domain}/og.png`, width: 1200, height: 630, alt: title }],
     },
-    twitter: { title, description },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@eggrate",
+      creator: "@eggrate",
+    },
     other: {
       "article:modified_time": dateModified,
+      "article:published_time": dateModified,
+      "article:section": "Egg Rate",
+      "article:tag": keywords.slice(0, 5).join(", "),
+      "geo.region": "IN",
+      "revisit-after": "1 day",
     },
   };
 }
