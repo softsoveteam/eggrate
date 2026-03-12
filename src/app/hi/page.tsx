@@ -1,0 +1,57 @@
+import Link from "next/link";
+import { PopularCityEggRates } from "@/components/PopularCityEggRates";
+import { getSiteDomain } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const domain = getSiteDomain();
+  const pageUrl = `https://${domain}/hi`;
+  const enUrl = `https://${domain}`;
+  const title = "आज अंडा रेट - भारत में लाइव बाजार कीमतें और रुझान | EggRate.net";
+  const description =
+    "भारत में आज का अंडा रेट और NECC दर देखें। शहर और राज्य के अनुसार रोज़ अंडे का रेट। पीस, ट्रे और पेटी की लाइव बाजार कीमतें।";
+  const keywords = "अंडे का रेट, आज अंडा रेट, necc अंडा रेट, अंडा रेट भारत, पेटी अंडा रेट, रोज़ अंडा रेट";
+  return {
+    title,
+    description,
+    keywords,
+    alternates: { canonical: pageUrl, languages: { en: enUrl, hi: pageUrl } },
+    openGraph: {
+      type: "website",
+      locale: "hi_IN",
+      url: pageUrl,
+      siteName: "EggRate.net",
+      title,
+      description,
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
+
+export default function HiHomePage() {
+  return (
+    <section className="container mx-auto px-4 py-8">
+      <div className="mx-auto max-w-5xl">
+        <h1 className="mb-6 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
+          आज अंडा रेट - लाइव बाजार कीमतें और रुझान
+        </h1>
+        <p className="mb-6 text-center text-zinc-600 dark:text-zinc-400">
+          भारत में आज का अंडा रेट और NECC दर देखने के लिए नीचे शहर चुनें। रोज़ अपडेट होने वाली लाइव कीमतें।
+        </p>
+        <PopularCityEggRates
+          className="mt-6"
+          localePrefix="hi"
+          title="लोकप्रिय शहर अंडा रेट"
+          linkSuffix=" आज अंडा रेट"
+        />
+        <p className="mt-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <Link href="/" className="text-indigo-600 hover:underline dark:text-indigo-400">
+            English में देखें
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
+}

@@ -30,6 +30,12 @@ export function isDateSlug(slug: string): boolean {
   return date.getDate() === day && date.getMonth() === month - 1 && date.getFullYear() === year;
 }
 
+/** Strip -egg-rate or -egg-rate-today from slug param to get base (city/state/date) */
+export function getBaseSlug(slugParam: string): string {
+  const parts = slugParam.split("-egg");
+  return (parts[0] ?? slugParam).trim();
+}
+
 export function getSiteDomain() {
   return SITE_DOMAIN;
 }

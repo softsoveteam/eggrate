@@ -22,7 +22,8 @@ const TRENDING_CITIES = [
   { name: "Pune", slug: "pune" },
 ];
 
-const cityHref = (slug: string) => `/${slug}-egg-rate-today`;
+const cityHref = (slug: string, hindi = false) =>
+  hindi ? `/hi/${slug}-egg-rate-today` : `/${slug}-egg-rate-today`;
 
 export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,8 +32,10 @@ export function Header() {
   const [trendingOpen, setTrendingOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [trendingMobileOpen, setTrendingMobileOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const trendingRefDesktop = useRef<HTMLDivElement>(null);
   const trendingRefMobile = useRef<HTMLDivElement>(null);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const preDay = getPreDay();
 
   useEffect(() => {
@@ -40,10 +43,12 @@ export function Header() {
       const target = e.target as Node;
       if (
         trendingRefDesktop.current?.contains(target) ||
-        trendingRefMobile.current?.contains(target)
+        trendingRefMobile.current?.contains(target) ||
+        langDropdownRef.current?.contains(target)
       )
         return;
       setTrendingOpen(false);
+      setLangDropdownOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -91,9 +96,12 @@ export function Header() {
       .toLowerCase();
 
   const pathname = usePathname();
+  const isHindi = pathname?.startsWith("/hi");
+  const englishUrl = isHindi ? (pathname === "/hi" ? "/" : pathname.slice(3)) : pathname ?? "/";
+  const hindiUrl = isHindi ? pathname ?? "/hi" : pathname === "/" ? "/hi" : `/hi${pathname}`;
   const isCityPage = pathname?.endsWith("-egg-rate-today") && pathname !== "/" && pathname.length > 1;
   const citySlug = isCityPage && pathname
-    ? pathname.slice(1).replace(/-egg-rate-today$/, "").trim()
+    ? pathname.slice(1).replace(/^hi\//, "").replace(/-egg-rate-today$/, "").trim()
     : "";
   const isCity = isCityPage && citySlug.length > 0 && !isDateSlug(citySlug);
   const cityName = isCity ? citySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "";
@@ -133,15 +141,15 @@ export function Header() {
           </Link>
           <nav aria-label="Main navigation" className="hidden items-center gap-4 md:flex">
             <Link
-              href="/"
+              href={isHindi ? "/hi" : "/"}
               className="text-sm font-medium text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
             >
-              Home
+              {isHindi ? "होम" : "Home"}
             </Link>
             {POPULAR_TOP.map((city) => (
               <Link
                 key={city.slug}
-                href={cityHref(city.slug)}
+                href={cityHref(city.slug, isHindi)}
                 className="text-sm font-medium text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
               >
                 {city.name}
@@ -163,7 +171,7 @@ export function Header() {
                   {TRENDING_CITIES.map((city) => (
                     <Link
                       key={city.slug}
-                      href={cityHref(city.slug)}
+                      href={cityHref(city.slug, isHindi)}
                       onClick={() => setTrendingOpen(false)}
                       className="block px-4 py-2 text-sm text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/40 dark:hover:text-indigo-300"
                     >
@@ -174,10 +182,10 @@ export function Header() {
               )}
             </div>
             <Link
-              href={`/${preDay}-egg-rate`}
+              href={isHindi ? `/hi/${preDay}-egg-rate` : `/${preDay}-egg-rate`}
               className="text-sm font-medium text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
             >
-              Yesterday
+              {isHindi ? "कल" : "Yesterday"}
             </Link>
             <Link
               href="/location"
@@ -191,6 +199,36 @@ export function Header() {
             >
               Contact
             </Link>
+            <div className="relative" ref={langDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setLangDropdownOpen((o) => !o)}
+                className="flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
+                aria-expanded={langDropdownOpen}
+                aria-haspopup="true"
+              >
+                {isHindi ? "हिंदी" : "English"}
+                <span className={`inline-block transition-transform ${langDropdownOpen ? "rotate-180" : ""}`}>▼</span>
+              </button>
+              {langDropdownOpen && (
+                <div className="absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded-lg border border-zinc-200 bg-white py-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+                  <Link
+                    href={englishUrl}
+                    onClick={() => setLangDropdownOpen(false)}
+                    className={`block px-4 py-2 text-sm ${!isHindi ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300" : "text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/40 dark:hover:text-indigo-300"}`}
+                  >
+                    English
+                  </Link>
+                  <Link
+                    href={hindiUrl}
+                    onClick={() => setLangDropdownOpen(false)}
+                    className={`block px-4 py-2 text-sm ${isHindi ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300" : "text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/40 dark:hover:text-indigo-300"}`}
+                  >
+                    हिंदी
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
           <div className="flex items-center gap-2 md:hidden">
             <button
@@ -246,13 +284,13 @@ export function Header() {
               </svg>
             </button>
           </div>
-          <Link href="/" onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
-            Home
+          <Link href={isHindi ? "/hi" : "/"} onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
+            {isHindi ? "होम" : "Home"}
           </Link>
           {POPULAR_TOP.map((city) => (
             <Link
               key={city.slug}
-              href={cityHref(city.slug)}
+              href={cityHref(city.slug, isHindi)}
               onClick={closeMobileMenu}
               className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300"
             >
@@ -274,7 +312,7 @@ export function Header() {
                 {TRENDING_CITIES.map((city) => (
                   <Link
                     key={city.slug}
-                    href={cityHref(city.slug)}
+                    href={cityHref(city.slug, isHindi)}
                     onClick={closeMobileMenu}
                     className="block rounded-lg px-2 py-2 text-sm text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
                   >
@@ -284,8 +322,8 @@ export function Header() {
               </div>
             )}
           </div>
-          <Link href={`/${preDay}-egg-rate`} onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
-            Yesterday
+          <Link href={isHindi ? `/hi/${preDay}-egg-rate` : `/${preDay}-egg-rate`} onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
+            {isHindi ? "कल" : "Yesterday"}
           </Link>
           <Link href="/location" onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
             Location
@@ -293,6 +331,15 @@ export function Header() {
           <Link href="/page/contact-us" onClick={closeMobileMenu} className="rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
             Contact
           </Link>
+          <div className="mt-2 border-t border-zinc-200 pt-3 dark:border-zinc-700">
+            <span className="mb-2 block px-4 text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400">Language</span>
+            <Link href={englishUrl} onClick={closeMobileMenu} className="block rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
+              English
+            </Link>
+            <Link href={hindiUrl} onClick={closeMobileMenu} className="block rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
+              हिंदी
+            </Link>
+          </div>
         </nav>
       </div>
 
@@ -323,19 +370,19 @@ export function Header() {
           {isCity ? (
             <>
               <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
-                {cityName} Egg Rate Today - Live NECC Egg Price
+                {isHindi ? `आज ${cityName} में अंडा रेट - लाइव बाजार कीमतें और रुझान` : `${cityName} Egg Rate Today - Live NECC Egg Price`}
               </h1>
               <h2 className="mb-6 text-lg font-medium text-indigo-100 sm:text-xl">
-                Today Egg Rate in {cityName}
+                {isHindi ? `आज ${cityName} में अंडा रेट` : `Today Egg Rate in ${cityName}`}
               </h2>
             </>
           ) : (
             <>
               <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
-                Check the Latest Egg Rate Today
+                {isHindi ? "आज अंडा रेट - लाइव बाजार कीमतें और रुझान" : "Check the Latest Egg Rate Today"}
               </h1>
               <p className="mb-6 text-indigo-100">
-                Keeping up to date with the latest egg rates is easy with this tool
+                {isHindi ? "रोज़ अपडेट होने वाली लाइव अंडा रेट और बाजार कीमतें" : "Keeping up to date with the latest egg rates is easy with this tool"}
               </p>
             </>
           )}
@@ -345,7 +392,7 @@ export function Header() {
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               onFocus={() => results.length > 0 && setSearchOpen(true)}
-              placeholder="Search places..."
+              placeholder={isHindi ? "जगह खोजें..." : "Search places..."}
               className="w-full rounded-full border-0 bg-white/95 py-3 pl-5 pr-12 text-zinc-800 shadow-lg outline-none ring-2 ring-indigo-500/30 placeholder:text-zinc-500 focus:ring-2 focus:ring-indigo-400"
               aria-label="Search places"
             />
@@ -357,7 +404,7 @@ export function Header() {
                 {results.map((item) => (
                   <Link
                     key={item.place}
-                    href={`/${slug(item.place)}-egg-rate-today`}
+                    href={isHindi ? `/hi/${slug(item.place)}-egg-rate-today` : `/${slug(item.place)}-egg-rate-today`}
                     onClick={() => setSearchOpen(false)}
                     className="block px-4 py-2 text-left text-zinc-700 hover:bg-indigo-50 dark:text-zinc-300 dark:hover:bg-indigo-900/30"
                   >

@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: "EggRate.net",
     publisher: "EggRate.net",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    alternates: { canonical: SITE_URL },
+    alternates: { canonical: SITE_URL, languages: { en: SITE_URL, hi: `${SITE_URL}/hi` } },
     category: "Finance",
     openGraph: {
       type: "website",

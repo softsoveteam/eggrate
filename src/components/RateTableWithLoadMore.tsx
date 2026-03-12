@@ -20,16 +20,24 @@ export function RateTableWithLoadMore({
   isDate,
   dateLabel,
   cityLabel,
+  basePath = "",
+  tableHeaders = { piece: "Piece", tray: "Tray", hundred: "100 pcs", peti: "Peti" },
+  loadMoreText = "Load more (%d more)",
 }: {
   rateList: RateRow[];
   isDate: boolean;
   dateLabel: string;
   cityLabel: string;
+  basePath?: string;
+  tableHeaders?: { piece: string; tray: string; hundred: string; peti: string };
+  loadMoreText?: string;
 }) {
   const [showAll, setShowAll] = useState(false);
   const visibleRows = showAll ? rateList : rateList.slice(0, INITIAL_ROWS);
   const hasMore = rateList.length > INITIAL_ROWS;
   const remaining = rateList.length - INITIAL_ROWS;
+  const prefix = basePath ? `/${basePath}` : "";
+  const loadMoreLabel = loadMoreText.replace(/%d/g, String(remaining));
 
   return (
     <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow dark:border-zinc-700 dark:bg-zinc-900">
@@ -40,20 +48,20 @@ export function RateTableWithLoadMore({
               <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
                 {isDate ? cityLabel : dateLabel}
               </th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">Piece</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">Tray</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">100 pcs</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">Peti</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.piece}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.tray}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.hundred}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.peti}</th>
             </tr>
           </thead>
           <tbody>
             {visibleRows.map((row, i) => {
               const keyVal = row.date ?? row.city ?? "";
               const href = isDate
-                ? `/${toSlug(keyVal)}-egg-rate-today`
+                ? `${prefix}/${toSlug(keyVal)}-egg-rate-today`
                 : i === 0
-                  ? "/"
-                  : `/${toSlug(keyVal)}-egg-rate`;
+                  ? prefix || "/"
+                  : `${prefix}/${toSlug(keyVal)}-egg-rate`;
               return (
                 <tr
                   key={i}
@@ -84,7 +92,7 @@ export function RateTableWithLoadMore({
             onClick={() => setShowAll(true)}
             className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-500 dark:hover:bg-indigo-600"
           >
-            Load more ({remaining} more)
+            {loadMoreLabel}
           </button>
         </div>
       )}

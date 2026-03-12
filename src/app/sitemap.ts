@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastMod = getStartOfTodayUTC();
   const staticUrls: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: lastMod, changeFrequency: "daily", priority: 1 },
+    { url: `${SITE_URL}/hi`, lastModified: lastMod, changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/location`, lastModified: lastMod, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/page/about-us`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
     { url: `${SITE_URL}/page/contact-us`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
@@ -35,6 +36,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "daily" as const,
         priority: 0.8,
       }));
+      const hiPlaceUrls: MetadataRoute.Sitemap = data.map((item) => ({
+        url: `${SITE_URL}/hi/${slug(item.place)}-egg-rate-today`,
+        lastModified: lastMod,
+        changeFrequency: "daily" as const,
+        priority: 0.8,
+      }));
+      placeUrls = [...placeUrls, ...hiPlaceUrls];
     }
   } catch {
     // ignore

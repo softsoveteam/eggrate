@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { fetchLocationData, fetchDateData } from "@/lib/api";
-import { isDateSlug, makeSlug, getSiteDomain } from "@/lib/utils";
+import { isDateSlug, makeSlug, getSiteDomain, getBaseSlug } from "@/lib/utils";
 import { PriceChart } from "@/components/PriceChart";
 import { LowHighChart } from "@/components/LowHighChart";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -84,11 +84,6 @@ function buildChartTwoFromTable(rateList: { date?: string; piece: string }[]): {
   };
 }
 
-function getBaseSlug(slugParam: string): string {
-  const parts = slugParam.split("-egg");
-  return (parts[0] ?? slugParam).trim();
-}
-
 /** Capitalize first letter of each word for city/state name */
 function capitalizePlace(name: string): string {
   return name.replace(/\b\w/g, (c) => c.toUpperCase());
@@ -127,6 +122,7 @@ export async function generateMetadata({
     ? `Looking for egg rate on ${base}? Get the egg prices on ${base} with our comprehensive list, and graphical chart.`
     : `Check today's egg rate in ${cityName} with live NECC prices updated daily. Get egg price per piece, tray & peti across all major markets in ${cityName} realtime.`;
   const dateModified = getDateModifiedISO();
+  const hiPageUrl = `https://${domain}/hi/${slug}`;
   const keywords = [
     "egg rate",
     "today egg rate",
@@ -152,7 +148,7 @@ export async function generateMetadata({
     creator: "EggRate.net",
     publisher: "EggRate.net",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    alternates: { canonical: pageUrl },
+    alternates: { canonical: pageUrl, languages: { en: pageUrl, hi: hiPageUrl } },
     category: "Finance",
     openGraph: {
       title,
