@@ -1,22 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import nextDynamic from "next/dynamic";
 import { fetchLocationData, fetchDateData } from "@/lib/api";
 import { isDateSlug, makeSlug, getSiteDomain, getBaseSlug } from "@/lib/utils";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { RateTableWithLoadMore } from "@/components/RateTableWithLoadMore";
 import { PopularCityEggRates } from "@/components/PopularCityEggRates";
+import { DetailPageCharts } from "@/components/DetailPageCharts";
 import type { EggDataBlock, ChartOne, ChartTwo } from "@/types/egg";
 import type { Metadata } from "next";
-
-const PriceChart = nextDynamic(
-  () => import("@/components/PriceChart").then((m) => ({ default: m.PriceChart })),
-  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800" /> }
-);
-const LowHighChart = nextDynamic(
-  () => import("@/components/LowHighChart").then((m) => ({ default: m.LowHighChart })),
-  { ssr: false, loading: () => <div className="h-48 animate-pulse rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800" /> }
-);
 
 // Force SSR: render on server every request for full HTML and best SEO
 export const dynamic = "force-dynamic";
@@ -376,28 +367,11 @@ export default async function SlugPage({
               </p>
             </div>
 
-            {chartOne && (
-              <div id="price-chart">
-                <PriceChart
-                title={`${displayName} Egg Price Chart`}
-                labels={chartOne.labels}
-                data={chartOne.data}
-                min={chartOne.min}
-                max={chartOne.max}
-              />
-              </div>
-            )}
-            {chartTwo && (
-              <div id="low-high-chart">
-                <LowHighChart
-                title={`${displayName} Low & High Price Chart`}
-                labels={chartTwo.labels}
-                data={chartTwo.data}
-                min={chartTwo.min}
-                max={chartTwo.max}
-              />
-              </div>
-            )}
+            <DetailPageCharts
+              displayName={displayName}
+              chartOne={chartOne}
+              chartTwo={chartTwo}
+            />
           </div>
         </div>
 

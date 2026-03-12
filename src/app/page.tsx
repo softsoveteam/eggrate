@@ -1,20 +1,11 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { fetchHomeData } from "@/lib/api";
 import { makeSlug, getSiteDomain } from "@/lib/utils";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { PopularCityEggRates } from "@/components/PopularCityEggRates";
+import { DetailPageCharts } from "@/components/DetailPageCharts";
 import type { EggDataBlock } from "@/types/egg";
 import type { Metadata } from "next";
-
-const PriceChart = dynamic(
-  () => import("@/components/PriceChart").then((m) => ({ default: m.PriceChart })),
-  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800" /> }
-);
-const LowHighChart = dynamic(
-  () => import("@/components/LowHighChart").then((m) => ({ default: m.LowHighChart })),
-  { ssr: false, loading: () => <div className="h-48 animate-pulse rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800" /> }
-);
 
 // Force SSR: render on server every request for full HTML and best SEO
 export const dynamic = "force-dynamic";
@@ -291,24 +282,11 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {chartOne && (
-              <PriceChart
-                title="Today Egg Price Chart"
-                labels={chartOne.labels}
-                data={chartOne.data}
-                min={chartOne.min}
-                max={chartOne.max}
-              />
-            )}
-            {chartTwo && (
-              <LowHighChart
-                title="Today Low & High Price Chart"
-                labels={chartTwo.labels}
-                data={chartTwo.data}
-                min={chartTwo.min}
-                max={chartTwo.max}
-              />
-            )}
+            <DetailPageCharts
+              displayName="Today"
+              chartOne={chartOne}
+              chartTwo={chartTwo}
+            />
           </div>
         </div>
 
