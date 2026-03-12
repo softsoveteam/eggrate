@@ -33,3 +33,9 @@ export function isDateSlug(slug: string): boolean {
 export function getSiteDomain() {
   return SITE_DOMAIN;
 }
+
+/** Start of today at 00:00:00 UTC - for sitemap lastmod and "updated" meta (prices refresh daily at midnight) */
+export function getStartOfTodayUTC(): Date {
+  const d = new Date();
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
+}

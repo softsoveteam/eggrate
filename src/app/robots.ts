@@ -1,4 +1,7 @@
 import type { MetadataRoute } from "next";
+import { getSiteDomain } from "@/lib/utils";
+
+const SITE_URL = `https://${getSiteDomain()}`;
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: "https://eggrate.net/sitemap.xml",
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

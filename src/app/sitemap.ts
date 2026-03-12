@@ -1,18 +1,20 @@
 import { readFileSync } from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
+import { getSiteDomain, getStartOfTodayUTC } from "@/lib/utils";
 
-const SITE_URL = "https://eggrate.net";
+const SITE_URL = `https://${getSiteDomain()}`;
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastMod = getStartOfTodayUTC();
   const staticUrls: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    { url: `${SITE_URL}/location`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/page/about-us`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
-    { url: `${SITE_URL}/page/contact-us`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
-    { url: `${SITE_URL}/page/privacy`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
-    { url: `${SITE_URL}/page/terms-and-conditions`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
-    { url: `${SITE_URL}/page/dmca`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.3 },
+    { url: SITE_URL, lastModified: lastMod, changeFrequency: "daily", priority: 1 },
+    { url: `${SITE_URL}/location`, lastModified: lastMod, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/page/about-us`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/page/contact-us`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/page/privacy`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/page/terms-and-conditions`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/page/dmca`, lastModified: lastMod, changeFrequency: "monthly", priority: 0.3 },
   ];
 
   let placeUrls: MetadataRoute.Sitemap = [];
@@ -29,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           .toLowerCase();
       placeUrls = data.map((item) => ({
         url: `${SITE_URL}/${slug(item.place)}-egg-rate-today`,
-        lastModified: new Date(),
+        lastModified: lastMod,
         changeFrequency: "daily" as const,
         priority: 0.8,
       }));

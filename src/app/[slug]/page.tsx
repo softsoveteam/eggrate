@@ -102,6 +102,13 @@ function formatUpdateDate(date: Date): string {
   return `${day}${ord} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+/** Start of today 00:00 UTC in ISO string - for dateModified (prices update daily at 12 AM) */
+function getDateModifiedISO(): string {
+  const d = new Date();
+  const start = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
+  return start.toISOString();
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -117,11 +124,20 @@ export async function generateMetadata({
   const description = isDateSlug(base)
     ? `Looking for egg rate on ${base}? Get the egg prices on ${base} with our comprehensive list, and graphical chart.`
     : `Check today's egg rate in ${cityName} with live NECC prices updated daily. Get egg price per piece, tray & peti across all major markets in ${cityName} realtime.`;
+  const dateModified = getDateModifiedISO();
   return {
     title,
     description,
-    openGraph: { title, description },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      modifiedTime: dateModified,
+    },
     twitter: { title, description },
+    other: {
+      "article:modified_time": dateModified,
+    },
   };
 }
 
@@ -169,12 +185,31 @@ export default async function SlugPage({
     ],
   };
 
+  const pageUrl = `https://${domain}/${slug}`;
+  const dateModified = getDateModifiedISO();
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: pageUrl,
+    name: breadcrumbLabel,
+    description: isDate
+      ? `Egg rate on ${displayName}. Daily NECC egg prices.`
+      : `Today egg rate in ${displayName}. Live NECC egg price, piece, tray, peti.`,
+    dateModified,
+    datePublished: dateModified,
+    inLanguage: "en-IN",
+  };
+
   return (
     <section className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-5xl">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
         />
         <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-x-2 text-sm">
           <Link
