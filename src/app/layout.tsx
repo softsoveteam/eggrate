@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
+import { getSiteDomain } from "@/lib/utils";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PWAProvider } from "@/components/PWAProvider";
 import "./globals.css";
 
-const SITE_URL = "https://eggrate.net";
+const SITE_URL = `https://${getSiteDomain()}`;
 const SITE_NAME = "EggRate.net";
 const DEFAULT_DESC =
   "Get the latest egg rate today in India with NECC egg price and 1 Peti egg rate. Check daily egg prices by state and city. Stay informed about egg prices across India.";
@@ -91,11 +93,14 @@ export const viewport: Viewport = {
   themeColor: "#4f46e5",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const headersList = await headers();
+  const locale = headersList.get("x-next-locale") ?? "en";
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

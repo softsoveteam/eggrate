@@ -17,7 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     keywords,
-    alternates: { canonical: pageUrl, languages: { en: enUrl, hi: pageUrl } },
+    authors: [{ name: "EggRate.net", url: enUrl }],
+    creator: "EggRate.net",
+    publisher: "EggRate.net",
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    alternates: { canonical: pageUrl, languages: { en: enUrl, hi: pageUrl, "x-default": enUrl } },
+    category: "Finance",
     openGraph: {
       type: "website",
       locale: "hi_IN",
@@ -25,15 +30,46 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "EggRate.net",
       title,
       description,
+      images: [{ url: `https://${domain}/og.png`, width: 1200, height: 630, alt: title }],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@eggrate",
+      creator: "@eggrate",
+    },
+    other: {
+      "geo.region": "IN",
+      "revisit-after": "1 day",
+    },
   };
 }
 
 export default function HiHomePage() {
+  const domain = getSiteDomain();
+  const baseUrl = `https://${domain}`;
+  const webSiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "EggRate.net",
+    url: baseUrl,
+    description: "भारत में आज का अंडा रेट। NECC अंडा दर, पेटी रेट, शहर और राज्य के अनुसार रोज़ कीमतें।",
+    inLanguage: "hi-IN",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${baseUrl}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <section className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-5xl">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
         <h1 className="mb-6 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
           आज अंडा रेट - लाइव बाजार कीमतें और रुझान
         </h1>

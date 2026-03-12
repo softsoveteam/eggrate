@@ -148,7 +148,7 @@ export async function generateMetadata({
     creator: "EggRate.net",
     publisher: "EggRate.net",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    alternates: { canonical: pageUrl, languages: { en: pageUrl, hi: hiPageUrl } },
+    alternates: { canonical: pageUrl, languages: { en: pageUrl, hi: hiPageUrl, "x-default": pageUrl } },
     category: "Finance",
     openGraph: {
       title,
@@ -265,9 +265,9 @@ export default async function SlugPage({
           </span>
         </nav>
         {isDate ? (
-          <h1 className="mb-4 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
+          <h2 className="mb-4 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
             Egg Rate on {displayName}
-          </h1>
+          </h2>
         ) : (
           <h2 className="mb-4 text-center text-xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-2xl">
             Today Egg Rate in {displayName}

@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: "EggRate.net",
     publisher: "EggRate.net",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    alternates: { canonical: SITE_URL, languages: { en: SITE_URL, hi: `${SITE_URL}/hi` } },
+    alternates: { canonical: SITE_URL, languages: { en: SITE_URL, hi: `${SITE_URL}/hi`, "x-default": SITE_URL } },
     category: "Finance",
     openGraph: {
       type: "website",
@@ -165,11 +165,11 @@ export default async function HomePage() {
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "EggRate.net",
-              url: "https://eggrate.net",
+              url: `https://${domain}`,
               description: "Latest egg rate today in India. NECC egg price, peti egg rate, and daily egg prices by state and city.",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://eggrate.net/?q={search_term_string}",
+                target: `https://${domain}/?q={search_term_string}`,
                 "query-input": "required name=search_term_string",
               },
             }),

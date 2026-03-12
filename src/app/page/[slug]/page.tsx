@@ -1,11 +1,17 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
-
-const DOMAIN = "eggrate.net";
-const SITE_URL = "https://eggrate.net";
+import { getSiteDomain } from "@/lib/utils";
 
 // Force SSR: render on server every request for full HTML and best SEO
 export const dynamic = "force-dynamic";
+
+function getSiteUrl() {
+  return `https://${getSiteDomain()}`;
+}
+
+const DOMAIN = getSiteDomain();
+const SITE_URL = getSiteUrl();
 
 const PAGES: Record<
   string,
@@ -13,56 +19,44 @@ const PAGES: Record<
 > = {
   "about-us": {
     title: "About Us",
-    description: `About ${DOMAIN} - Your source for daily egg rates in India.`,
+    description: `About EggRate.net - Your source for daily egg rates in India.`,
     content: (
       <>
-        <h1>About Us {DOMAIN}</h1>
+        <h1>About Us - EggRate.net</h1>
         <p>
-          At {DOMAIN}, accessible from {DOMAIN}, one of our main priorities is the
-          privacy of our visitors. This Privacy Policy document contains types of
-          information that is collected and recorded by {DOMAIN} and how we use it.
+          EggRate.net is your trusted source for daily egg rates across India. We track NECC (National Egg Coordination Committee) prices and present them in an easy-to-use format so that consumers, retailers, and businesses can stay informed about current egg prices.
         </p>
         <p>
-          If you have additional questions or require more information about our
-          Privacy Policy, do not hesitate to contact us.
+          Our mission is to make egg rate information accessible and up to date. Whether you are checking today&apos;s rate for your city, comparing prices across states, or looking at trends over time, we aim to provide clear and reliable data.
         </p>
-        <h2>Consent</h2>
+        <h2>What we offer</h2>
         <p>
-          By using our website, you hereby consent to our Privacy Policy and agree to
-          its terms.
+          We provide daily egg rates by city and state, including price per piece, per tray, per 100 pieces, and per peti. Our data is updated regularly based on NECC reports, and we offer both list and chart views to help you understand market trends.
         </p>
         <p>
-          Another part of our priority is adding protection for children while using
-          the internet. We encourage parents and guardians to observe, participate in,
-          and/or monitor and guide their online activity.
-        </p>
-        <p>
-          {DOMAIN} does not knowingly collect any Personal Identifiable Information
-          from children under the age of 13. If you think that your child provided
-          this kind of information on our website, we strongly encourage you to
-          contact us immediately and we will do our best efforts to promptly remove
-          such information from our records.
+          If you have questions or feedback about our service, please visit our Contact Us page. We are here to help you stay informed about egg prices in India.
         </p>
       </>
     ),
   },
   "contact-us": {
     title: "Contact Us",
-    description: `Contact ${DOMAIN} for queries, suggestions, or feedback.`,
+    description: `Contact EggRate.net for queries, suggestions, or feedback about egg rates.`,
     content: (
       <>
         <h1>Contact Us</h1>
         <p>
-          If our site gave you a virus or crashed your computer, it didn&apos;t. Our site
-          has no malicious software of any kind. We simply link to sites that host
-          the videos, and we have no control over the ads they put on. If you have
-          the basic Antivirus protection, you&apos;re gonna be fine.
+          Have a question about egg rates, a suggestion to improve our site, or feedback to share? We would love to hear from you.
         </p>
         <p>
-          For Queries, Suggestions, Advertising or Complaints, feel free to Email Us -{" "}
-          <a href={`mailto:${DOMAIN.replace(".", "")}@protonmail.com`}>
-            {DOMAIN.replace(".", "")}@protonmail.com
+          For queries about egg prices, data accuracy, advertising, or general feedback, please email us at{" "}
+          <a href="mailto:eggratenet@protonmail.com" className="text-indigo-600 hover:underline dark:text-indigo-400">
+            eggratenet@protonmail.com
           </a>
+          . We do our best to respond in a timely manner.
+        </p>
+        <p>
+          EggRate.net is built to help you track daily egg rates across India. If you notice any issue with the data or the site, please let us know so we can improve your experience.
         </p>
       </>
     ),
@@ -220,10 +214,26 @@ export async function generateMetadata({
   const { slug } = await params;
   const page = PAGES[slug];
   if (!page) return {};
+  const canonicalUrl = `${getSiteUrl()}/page/${slug}`;
   return {
     title: page.title,
     description: page.description,
-    openGraph: { title: page.title, description: page.description },
+    alternates: { canonical: canonicalUrl },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    openGraph: {
+      title: page.title,
+      description: page.description,
+      url: canonicalUrl,
+      siteName: "EggRate.net",
+      images: [{ url: `${getSiteUrl()}/og.png`, width: 1200, height: 630, alt: `${page.title} | EggRate.net` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: page.title,
+      description: page.description,
+      site: "@eggrate",
+      creator: "@eggrate",
+    },
   };
 }
 
@@ -236,8 +246,29 @@ export default async function PagePage({
   const page = PAGES[slug];
   if (!page) notFound();
 
+  const baseUrl = getSiteUrl();
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+      { "@type": "ListItem", position: 2, name: page.title, item: `${baseUrl}/page/${slug}` },
+    ],
+  };
+
   return (
     <section className="container mx-auto max-w-3xl px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-x-2 text-sm">
+        <Link href="/" className="font-medium text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
+          Home
+        </Link>
+        <span className="text-zinc-500 dark:text-zinc-400" aria-hidden>&gt;</span>
+        <span className="font-medium text-zinc-800 dark:text-zinc-200">{page.title}</span>
+      </nav>
       <div className="prose prose-zinc max-w-none rounded-xl border border-zinc-200 bg-white p-6 shadow dark:prose-invert dark:border-zinc-700 dark:bg-zinc-900">
         {page.content}
       </div>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { readFileSync } from "fs";
 import path from "path";
-import { makeSlug } from "@/lib/utils";
+import { makeSlug, getSiteDomain } from "@/lib/utils";
 
-const SITE_URL = "https://eggrate.net";
+const SITE_URL = `https://${getSiteDomain()}`;
 
 // Force SSR: render on server every request for full HTML and best SEO
 export const dynamic = "force-dynamic";
@@ -12,10 +12,21 @@ export const metadata = {
   title: "Check NECC Egg Price & Peti Egg Rate by Location",
   description:
     "NECC Egg Rate Today by Location. Check out daily egg price updated by NECC. Browse egg rates by state and city across India.",
+  alternates: { canonical: `${SITE_URL}/location` },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
     title: "NECC Egg Rate Today by Location | EggRate.net",
     description: "Check daily egg price by state and city. NECC egg rate today.",
     url: `${SITE_URL}/location`,
+    siteName: "EggRate.net",
+    images: [{ url: `${SITE_URL}/og.png`, width: 1200, height: 630, alt: "EggRate.net - Egg Rate by Location" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NECC Egg Rate Today by Location | EggRate.net",
+    description: "Check daily egg price by state and city. NECC egg rate today.",
+    site: "@eggrate",
+    creator: "@eggrate",
   },
 };
 

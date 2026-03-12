@@ -343,15 +343,21 @@ export function Header() {
         </nav>
       </div>
 
-      <section className="relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-zinc-900 pt-24 pb-12 text-white shadow-lg">
-        <div className="container mx-auto max-w-2xl px-4 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-indigo-600 via-indigo-700 to-indigo-800 pt-20 pb-6 sm:pb-8 text-white shadow-xl">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-20" aria-hidden>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(255,255,255,0.15)_0%,_transparent_50%)]" />
+          <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-[radial-gradient(ellipse_80%_80%_at_50%_100%,_rgba(255,255,255,0.08)_0%,_transparent_70%)]" />
+        </div>
+
+        <div className="container relative mx-auto max-w-2xl px-4 pt-2 pb-4 text-center">
           {isHome && (
             <>
               <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
               />
-              <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center justify-center gap-x-2 text-sm text-indigo-100">
+              <nav aria-label="Breadcrumb" className="mb-2 flex flex-wrap items-center justify-center gap-x-2 text-sm text-white/80">
                 <Link
                   href="/"
                   className="hover:text-white hover:underline focus:text-white focus:underline"
@@ -360,7 +366,7 @@ export function Header() {
                 </Link>
                 {breadcrumbPath && (
                   <>
-                    <span aria-hidden className="text-indigo-300">&gt;</span>
+                    <span aria-hidden className="text-white/50">&gt;</span>
                     <span className="text-white/95">{breadcrumbPath}</span>
                   </>
                 )}
@@ -369,44 +375,46 @@ export function Header() {
           )}
           {isCity ? (
             <>
-              <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
+              <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
                 {isHindi ? `आज ${cityName} में अंडा रेट - लाइव बाजार कीमतें और रुझान` : `${cityName} Egg Rate Today - Live NECC Egg Price`}
               </h1>
-              <h2 className="mb-6 text-lg font-medium text-indigo-100 sm:text-xl">
+              <p className="mb-4 text-base font-medium text-white/90 sm:text-lg">
                 {isHindi ? `आज ${cityName} में अंडा रेट` : `Today Egg Rate in ${cityName}`}
-              </h2>
+              </p>
             </>
           ) : (
             <>
-              <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
+              <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
                 {isHindi ? "आज अंडा रेट - लाइव बाजार कीमतें और रुझान" : "Check the Latest Egg Rate Today"}
               </h1>
-              <p className="mb-6 text-indigo-100">
+              <p className="mb-4 max-w-xl mx-auto text-sm text-white/90 sm:text-base">
                 {isHindi ? "रोज़ अपडेट होने वाली लाइव अंडा रेट और बाजार कीमतें" : "Keeping up to date with the latest egg rates is easy with this tool"}
               </p>
             </>
           )}
-          <div className="relative">
+          <div className="relative mx-auto w-full max-w-xl">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               onFocus={() => results.length > 0 && setSearchOpen(true)}
               placeholder={isHindi ? "जगह खोजें..." : "Search places..."}
-              className="w-full rounded-full border-0 bg-white/95 py-3 pl-5 pr-12 text-zinc-800 shadow-lg outline-none ring-2 ring-indigo-500/30 placeholder:text-zinc-500 focus:ring-2 focus:ring-indigo-400"
+              className="w-full rounded-2xl border-0 bg-white py-3 pl-5 pr-12 text-base text-zinc-800 shadow-lg outline-none ring-2 ring-white/30 placeholder:text-zinc-400 focus:ring-2 focus:ring-white/50"
               aria-label="Search places"
             />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500">
-              🔍
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400" aria-hidden>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </span>
             {searchOpen && results.length > 0 && (
-              <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-64 overflow-auto rounded-xl border border-zinc-200 bg-white py-2 shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
+              <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-72 overflow-auto rounded-2xl border border-zinc-200 bg-white py-2 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
                 {results.map((item) => (
                   <Link
                     key={item.place}
                     href={isHindi ? `/hi/${slug(item.place)}-egg-rate-today` : `/${slug(item.place)}-egg-rate-today`}
                     onClick={() => setSearchOpen(false)}
-                    className="block px-4 py-2 text-left text-zinc-700 hover:bg-indigo-50 dark:text-zinc-300 dark:hover:bg-indigo-900/30"
+                    className="block px-5 py-2.5 text-left text-zinc-700 hover:bg-indigo-50 dark:text-zinc-300 dark:hover:bg-indigo-900/30"
                   >
                     {item.place}
                   </Link>

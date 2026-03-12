@@ -168,7 +168,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     creator: "EggRate.net",
     publisher: "EggRate.net",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    alternates: { canonical: pageUrl, languages: { en: enPageUrl, hi: pageUrl } },
+    alternates: { canonical: pageUrl, languages: { en: enPageUrl, hi: pageUrl, "x-default": enPageUrl } },
     category: "Finance",
     openGraph: {
       title,
