@@ -9,10 +9,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const domain = getSiteDomain();
   const pageUrl = `https://${domain}/hi`;
   const enUrl = `https://${domain}`;
-  const title = "आज अंडा रेट - भारत में लाइव बाजार कीमतें और रुझान | EggRate.net";
+  const title = "आज अंडे का रेट - भारत में लाइव बाजार कीमतें और रुझान | EggRate.net";
   const description =
-    "भारत में आज का अंडा रेट और NECC दर देखें। शहर और राज्य के अनुसार रोज़ अंडे का रेट। पीस, ट्रे और पेटी की लाइव बाजार कीमतें।";
-  const keywords = "अंडे का रेट, आज अंडा रेट, necc अंडा रेट, अंडा रेट भारत, पेटी अंडा रेट, रोज़ अंडा रेट";
+    "भारत में आज का अंडे का रेट और NECC दर देखें। शहर और राज्य के अनुसार रोज़ अंडे का रेट। पीस, ट्रे और पेटी की लाइव बाजार कीमतें।";
+  const keywords = "अंडे का रेट, आज अंडे का रेट, necc अंडे का रेट, अंडे का रेट भारत, पेटी अंडे का रेट, रोज़ अंडे का रेट";
   return {
     title,
     description,
@@ -54,7 +54,7 @@ export default function HiHomePage() {
     "@type": "WebSite",
     name: "EggRate.net",
     url: baseUrl,
-    description: "भारत में आज का अंडा रेट। NECC अंडा दर, पेटी रेट, शहर और राज्य के अनुसार रोज़ कीमतें।",
+    description: "भारत में आज का अंडे का रेट। NECC अंडा दर, पेटी रेट, शहर और राज्य के अनुसार रोज़ कीमतें।",
     inLanguage: "hi-IN",
     potentialAction: {
       "@type": "SearchAction",
@@ -71,16 +71,16 @@ export default function HiHomePage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
         <h1 className="mb-6 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
-          आज अंडा रेट - लाइव बाजार कीमतें और रुझान
+          आज अंडे का रेट - लाइव बाजार कीमतें और रुझान
         </h1>
         <p className="mb-6 text-center text-zinc-600 dark:text-zinc-400">
-          भारत में आज का अंडा रेट और NECC दर देखने के लिए नीचे शहर चुनें। रोज़ अपडेट होने वाली लाइव कीमतें।
+          भारत में आज का अंडे का रेट और NECC दर देखने के लिए नीचे शहर चुनें। रोज़ अपडेट होने वाली लाइव कीमतें।
         </p>
         <PopularCityEggRates
           className="mt-6"
           localePrefix="hi"
-          title="लोकप्रिय शहर अंडा रेट"
-          linkSuffix=" आज अंडा रेट"
+          title="लोकप्रिय शहर अंडे का रेट"
+          linkSuffix=" आज अंडे का रेट"
         />
         <p className="mt-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
           <Link href="/" className="text-indigo-600 hover:underline dark:text-indigo-400">

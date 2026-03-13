@@ -378,19 +378,19 @@ export function Header() {
           {isCity ? (
             <>
               <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
-                {isHindi ? `आज ${cityName} में अंडा रेट - लाइव बाजार कीमतें और रुझान` : `${cityName} Egg Rate Today - Live NECC Egg Price`}
+                {isHindi ? `आज ${cityName} में अंडे का रेट - लाइव बाजार कीमतें और रुझान` : `${cityName} Egg Rate Today - Live NECC Egg Price`}
               </h1>
               <p className="mb-3 text-base font-medium text-white/90 sm:text-lg">
-                {isHindi ? `आज ${cityName} में अंडा रेट` : `Today Egg Rate in ${cityName}`}
+                {isHindi ? `आज ${cityName} में अंडे का रेट` : `Today Egg Rate in ${cityName}`}
               </p>
             </>
           ) : (
             <>
               <h1 className="mb-1 text-lg font-bold leading-tight tracking-tight drop-shadow-sm sm:text-xl md:text-2xl">
-                {isHindi ? "आज अंडा रेट - लाइव बाजार कीमतें और रुझान" : "Check the Latest Egg Rate Today"}
+                {isHindi ? "आज अंडे का रेट - लाइव बाजार कीमतें और रुझान" : "Check the Latest Egg Rate Today"}
               </h1>
               <p className="mb-3 max-w-xl mx-auto text-sm text-white/90 sm:text-base">
-                {isHindi ? "रोज़ अपडेट होने वाली लाइव अंडा रेट और बाजार कीमतें" : "Keeping up to date with the latest egg rates is easy with this tool"}
+                {isHindi ? "रोज़ अपडेट होने वाली लाइव अंडे का रेट और बाजार कीमतें" : "Keeping up to date with the latest egg rates is easy with this tool"}
               </p>
             </>
           )}

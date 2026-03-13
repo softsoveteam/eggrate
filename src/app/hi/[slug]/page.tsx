@@ -30,19 +30,19 @@ const H = {
   monthRate: "30 दिन पहले का रेट",
   marketTitle: "आज बाजार में अंडे का रेट",
   market: "बाजार",
-  necc: "NECC अंडा रेट",
+  necc: "NECC अंडे का रेट",
   wholesale: "थोक रेट",
   retail: "खुदरा रेट",
   supermarket: "सुपर मार्केट रेट",
   neccLink: "National Egg Coordination Committee",
   toc: "विषय सूची",
-  summaryAnchor: "आज अंडा रेट (NECC अंडा रेट)",
+  summaryAnchor: "आज अंडे का रेट (NECC अंडे का रेट)",
   rateSummary: "अंडे का रेट सारांश",
   priceChart: "अंडे का रेट चार्ट",
   lowHighChart: "कम और ज्यादा कीमत चार्ट",
   nearbyCities: "नजदीकी शहरों में अंडे का रेट",
   differentStates: "विभिन्न राज्यों में अंडे का रेट",
-  popularCityRates: "लोकप्रिय शहर अंडा रेट",
+  popularCityRates: "लोकप्रिय शहर अंडे का रेट",
   faq: "अक्सर पूछे जाने वाले प्रश्न",
   faqIntro: "के बारे में सामान्य प्रश्न",
   low: "कम",
@@ -140,25 +140,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const pageUrl = `https://${domain}/hi/${slug}`;
   const enPageUrl = `https://${domain}/${slug}`;
   const title = isDateSlug(base)
-    ? `${base} पर अंडा रेट - लाइव बाजार कीमतें और रुझान`
-    : `आज ${cityName} में अंडा रेट - लाइव बाजार कीमतें और रुझान`;
+    ? `${base} पर अंडे का रेट - लाइव बाजार कीमतें और रुझान`
+    : `आज ${cityName} में अंडे का रेट - लाइव बाजार कीमतें और रुझान`;
   const description = isDateSlug(base)
     ? `${base} पर अंडे का रेट ढूंढ रहे हैं? हमारी सूची और चार्ट के साथ ${base} पर अंडे का रेट देखें।`
-    : `${cityName} में आज का अंडा रेट देखें। रोज़ अपडेट होने वाली NECC दर। पीस, ट्रे और पेटी की लाइव बाजार कीमतें।`;
+    : `${cityName} में आज का अंडे का रेट देखें। रोज़ अपडेट होने वाली NECC दर। पीस, ट्रे और पेटी की लाइव बाजार कीमतें।`;
   const dateModified = getDateModifiedISO();
   const keywords = [
     "अंडे का रेट",
-    "आज अंडा रेट",
-    "necc अंडा रेट",
-    "अंडा रेट आज",
-    "अंडा रेट",
-    "necc अंडा रेट",
-    "पेटी अंडा रेट",
-    "भारत अंडा रेट",
-    "रोज़ अंडा रेट",
-    "शहर के अनुसार अंडा रेट",
-    "राज्य के अनुसार अंडा रेट",
-    ...(isDateSlug(base) ? [] : [`${cityName} अंडा रेट`, `अंडा रेट ${cityName}`]),
+    "आज अंडे का रेट",
+    "necc अंडे का रेट",
+    "अंडे का रेट आज",
+    "अंडे का रेट",
+    "necc अंडे का रेट",
+    "पेटी अंडे का रेट",
+    "भारत अंडे का रेट",
+    "रोज़ अंडे का रेट",
+    "शहर के अनुसार अंडे का रेट",
+    "राज्य के अनुसार अंडे का रेट",
+    ...(isDateSlug(base) ? [] : [`${cityName} अंडे का रेट`, `अंडे का रेट ${cityName}`]),
   ];
   return {
     title,
@@ -218,7 +218,7 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
   const firstRow = rateList[0];
   const isLocationView = !isDate && (cityList?.length > 0 || report);
 
-  const breadcrumbLabel = isDate ? `${displayName} पर अंडा रेट` : `आज ${displayName} में अंडा रेट`;
+  const breadcrumbLabel = isDate ? `${displayName} पर अंडे का रेट` : `आज ${displayName} में अंडे का रेट`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -234,7 +234,7 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
     "@type": "WebPage",
     url: pageUrl,
     name: breadcrumbLabel,
-    description: isDate ? `${displayName} पर अंडे का रेट। रोज़ NECC दर।` : `आज ${displayName} में अंडा रेट। पीस, ट्रे, पेटी की लाइव कीमतें।`,
+    description: isDate ? `${displayName} पर अंडे का रेट। रोज़ NECC दर।` : `आज ${displayName} में अंडे का रेट। पीस, ट्रे, पेटी की लाइव कीमतें।`,
     dateModified,
     datePublished: dateModified,
     inLanguage: "hi-IN",
@@ -261,21 +261,21 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
         </nav>
         {isDate ? (
           <h1 className="mb-4 text-center text-2xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-3xl">
-            {displayName} पर अंडा रेट
+            {displayName} पर अंडे का रेट
           </h1>
         ) : (
           <h2 className="mb-4 text-center text-xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-2xl">
-            आज {displayName} में अंडा रेट
+            आज {displayName} में अंडे का रेट
           </h2>
         )}
         <p className="mb-8 text-center text-zinc-600 dark:text-zinc-400">
           {isDate
             ? `${displayName} पर अंडे का रेट देख रहे हैं? लाइव बाजार कीमतें और रुझान के लिए यहां देखें।`
-            : `${displayName} में ताज़ा अंडा रेट देख रहे हैं? लाइव बाजार कीमतें और सही दाम जानने के लिए यहां देखें।`}
+            : `${displayName} में ताज़ा अंडे का रेट देख रहे हैं? लाइव बाजार कीमतें और सही दाम जानने के लिए यहां देखें।`}
         </p>
         <p className="mb-6 text-zinc-600 dark:text-zinc-400" id="summary">
           <strong className="text-zinc-800 dark:text-zinc-200">अपडेट: {formatUpdateDateHi(new Date())}:</strong>{" "}
-          नवीनतम अपडेट के अनुसार आज {displayName} में अंडा रेट {firstRow?.piece ?? "—"} (NECC दर) है। 30 अंडों की एक ट्रे {firstRow?.tray ?? "—"}, 100 अंडे {firstRow?.hundred_pcs ?? "—"} और एक पेटी {firstRow?.peti ?? "—"} है। यह दर स्थानीय बाजार और मंडी में कीमतों का आधार है।
+          नवीनतम अपडेट के अनुसार आज {displayName} में अंडे का रेट {firstRow?.piece ?? "—"} (NECC दर) है। 30 अंडों की एक ट्रे {firstRow?.tray ?? "—"}, 100 अंडे {firstRow?.hundred_pcs ?? "—"} और एक पेटी {firstRow?.peti ?? "—"} है। यह दर स्थानीय बाजार और मंडी में कीमतों का आधार है।
         </p>
         <div className="grid gap-8 lg:grid-cols-[1fr,340px]">
           <div>
@@ -420,7 +420,7 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
             )}
           </div>
         )}
-        <PopularCityEggRates className="mt-10" id="popular-city-egg-rates" localePrefix="hi" title={H.popularCityRates} linkSuffix=" आज अंडा रेट" />
+        <PopularCityEggRates className="mt-10" id="popular-city-egg-rates" localePrefix="hi" title={H.popularCityRates} linkSuffix=" आज अंडे का रेट" />
         {isLocationView && (
           <div id="faq" className="mt-12 rounded-2xl border border-zinc-200 bg-zinc-50/50 px-4 py-6 dark:border-zinc-700 dark:bg-zinc-900/50 sm:px-6 sm:py-8">
             <h2 className="mb-2 text-center text-xl font-bold text-zinc-800 dark:text-zinc-100 sm:text-2xl">{H.faq}</h2>
@@ -431,9 +431,9 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
               className="mx-auto max-w-3xl"
               items={[
                 {
-                  question: `${displayName} में नवीनतम अंडा रेट क्या है?`,
+                  question: `${displayName} में नवीनतम अंडे का रेट क्या है?`,
                   answer: (
-                    <>आज के अनुसार {displayName} में अंडा रेट पीस {firstRow?.piece}, ट्रे {firstRow?.tray}, 100 पीस {firstRow?.hundred_pcs} और पेटी {firstRow?.peti} है। NECC डेटा के अनुसार रोज़ अपडेट होता है।</>
+                    <>आज के अनुसार {displayName} में अंडे का रेट पीस {firstRow?.piece}, ट्रे {firstRow?.tray}, 100 पीस {firstRow?.hundred_pcs} और पेटी {firstRow?.peti} है। NECC डेटा के अनुसार रोज़ अपडेट होता है।</>
                   ),
                 },
                 {
@@ -443,24 +443,24 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
                   ),
                 },
                 {
-                  question: `आज ${displayName} में NECC अंडा रेट क्या है?`,
-                  answer: <>राष्ट्रीय अंडा समन्वय समिति (NECC) भारत में अंडा रेट तय करती है। आज {displayName} में NECC अंडा रेट {firstRow?.piece} प्रति अंडा है।</>,
+                  question: `आज ${displayName} में NECC अंडे का रेट क्या है?`,
+                  answer: <>राष्ट्रीय अंडा समन्वय समिति (NECC) भारत में अंडे का रेट तय करती है। आज {displayName} में NECC अंडे का रेट {firstRow?.piece} प्रति अंडा है।</>,
                 },
                 {
                   question: `आज ${displayName} में अंडा थोक रेट क्या है?`,
                   answer: <>नवीनतम डेटा के अनुसार आज {displayName} में अंडा थोक रेट प्रति अंडा {firstRow?.piece} और प्रति ट्रे {firstRow?.tray} है।</>,
                 },
                 {
-                  question: `${displayName} में नवीनतम अंडा रेट कैसे देखें?`,
+                  question: `${displayName} में नवीनतम अंडे का रेट कैसे देखें?`,
                   answer: (
                     <>
-                      आप <a href={`https://${domain}`} target="_blank" rel="noreferrer noopener" className="text-indigo-600 hover:underline dark:text-indigo-400">{domain}</a> पर {displayName} के रोज़ अंडा रेट देख सकते हैं। हम NECC रिपोर्ट के अनुसार अपडेट करते हैं।
+                      आप <a href={`https://${domain}`} target="_blank" rel="noreferrer noopener" className="text-indigo-600 hover:underline dark:text-indigo-400">{domain}</a> पर {displayName} के रोज़ अंडे का रेट देख सकते हैं। हम NECC रिपोर्ट के अनुसार अपडेट करते हैं।
                     </>
                   ),
                 },
                 {
-                  question: `${displayName} में अंडा रेट कम और ज्यादा क्या है?`,
-                  answer: <>पिछले 30 दिनों में {displayName} में सबसे कम अंडा रेट {chartTwoLowHigh[0] ?? "N/A"} प्रति अंडा था। सबसे ज्यादा रेट {chartTwoLowHigh[1] ?? "N/A"} प्रति अंडा था।</>,
+                  question: `${displayName} में अंडे का रेट कम और ज्यादा क्या है?`,
+                  answer: <>पिछले 30 दिनों में {displayName} में सबसे कम अंडे का रेट {chartTwoLowHigh[0] ?? "N/A"} प्रति अंडा था। सबसे ज्यादा रेट {chartTwoLowHigh[1] ?? "N/A"} प्रति अंडा था।</>,
                 },
               ]}
             />
@@ -475,13 +475,13 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
               allowMultiple
               className="mx-auto max-w-3xl"
               items={[
-                { question: `${displayName} पर अंडा रेट क्या है?`, answer: <>अंडा रेट शहर के अनुसार बदलता है। ऊपर की तालिका में शहरवार रेट देखें। डेटा NECC से रोज़ अपडेट होता है।</> },
-                { question: "अंडा रेट कितनी बार अपडेट होता है?", answer: <>अंडा रेट रोज़ अपडेट होता है। किसी भी तारीख या शहर का रेट देखने के लिए {domain} बुकमार्क करें।</> },
+                { question: `${displayName} पर अंडे का रेट क्या है?`, answer: <>अंडे का रेट शहर के अनुसार बदलता है। ऊपर की तालिका में शहरवार रेट देखें। डेटा NECC से रोज़ अपडेट होता है।</> },
+                { question: "अंडे का रेट कितनी बार अपडेट होता है?", answer: <>अंडे का रेट रोज़ अपडेट होता है। किसी भी तारीख या शहर का रेट देखने के लिए {domain} बुकमार्क करें।</> },
                 { question: "पीस, ट्रे और पेटी का मतलब क्या है?", answer: <>पीस = एक अंडा; ट्रे = आमतौर पर 30 अंडे; पेटी = 210 अंडे। तालिका में रेट NECC द्वारा {displayName} के लिए रिपोर्ट किए गए हैं।</> },
                 {
-                  question: "दूसरी तारीख या शहरों के अंडा रेट कहां देखें?",
+                  question: "दूसरी तारीख या शहरों के अंडे का रेट कहां देखें?",
                   answer: (
-                    <> <a href={`https://${domain}`} target="_blank" rel="noreferrer noopener" className="text-indigo-600 hover:underline dark:text-indigo-400">{domain}</a> पर जाएं और खोज या नेविगेशन से शहर या तारीख के अनुसार अंडा रेट देखें।</>
+                    <> <a href={`https://${domain}`} target="_blank" rel="noreferrer noopener" className="text-indigo-600 hover:underline dark:text-indigo-400">{domain}</a> पर जाएं और खोज या नेविगेशन से शहर या तारीख के अनुसार अंडे का रेट देखें।</>
                   ),
                 },
               ]}

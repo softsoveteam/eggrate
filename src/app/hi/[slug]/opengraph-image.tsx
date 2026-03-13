@@ -19,7 +19,7 @@ export default async function OpengraphImage({
   const cityName = capitalizePlace(name);
   const isDate = isDateSlug(base);
   const centerTitle = isDate ? base : cityName;
-  const subtitle = isDate ? "अंडा रेट और कीमत" : "आज अंडा रेट";
+  const subtitle = isDate ? "अंडे का रेट और कीमत" : "आज अंडे का रेट";
 
   return new ImageResponse(
     (
