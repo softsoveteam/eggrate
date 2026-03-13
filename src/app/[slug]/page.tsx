@@ -58,9 +58,9 @@ function parseChartTwo(block: EggDataBlock) {
 }
 
 /** Build chart one from rate table when API chart_one is missing or empty */
-function buildChartOneFromTable(rateList: { date?: string; piece: string }[], isDateView: boolean): { labels: string[]; data: number[]; min: number; max: number } | null {
+function buildChartOneFromTable(rateList: { date?: string; city?: string; piece: string }[], _isDateView: boolean): { labels: string[]; data: number[]; min: number; max: number } | null {
   if (!rateList?.length) return null;
-  const labels = rateList.map((r) => (r.date ?? "").trim()).filter(Boolean);
+  const labels = rateList.map((r) => (r.date ?? r.city ?? "").trim()).filter(Boolean);
   const data = rateList.map((r) => parseFloat(String(r.piece).replace(/[₹\s]/g, "")) || 0);
   if (labels.length === 0 || data.every((d) => d === 0)) return null;
   const values = data.filter((n) => n > 0);
@@ -203,7 +203,10 @@ export default async function SlugPage({
   const stateList = block.states ?? [];
   const cityList = block.citys ?? [];
   const report = block.report?.[0];
-  const chartOne = parseChartOne(block) ?? buildChartOneFromTable(rateList, isDate);
+  const parsedChartOne = parseChartOne(block);
+  const tableChartOne = buildChartOneFromTable(rateList, isDate);
+  const hasValidData = (c: { data: number[] } | null) => c && c.data.some((d) => d > 0);
+  const chartOne = hasValidData(tableChartOne) ? tableChartOne : (hasValidData(parsedChartOne) ? parsedChartOne : tableChartOne ?? parsedChartOne);
   const chartTwo = parseChartTwo(block) ?? buildChartTwoFromTable(rateList);
   const chartTwoLowHigh = chartTwo?.labels ?? [];
   const domain = getSiteDomain();
@@ -301,24 +304,24 @@ export default async function SlugPage({
                 <table className="w-full text-sm">
                   <tbody>
                     <tr className="border-b border-zinc-100 dark:border-zinc-800">
-                      <td className="py-2">Price Up / Down</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">Price Up / Down</td>
                       <td className={`py-2 font-medium ${report.up_down_status === "success" ? "text-green-600" : "text-red-600"}`}>
                         {report.up_down}
                       </td>
                     </tr>
                     <tr className="border-b border-zinc-100 dark:border-zinc-800">
-                      <td className="py-2">Percentage</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">Percentage</td>
                       <td className={`py-2 font-medium ${report.percentage_status === "success" ? "text-green-600" : "text-red-600"}`}>
                         {report.percentage}
                       </td>
                     </tr>
                     <tr className="border-b border-zinc-100 dark:border-zinc-800">
-                      <td className="py-2">Today Rate</td>
-                      <td className="py-2">{report.today_rate}</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">Today Rate</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">{report.today_rate}</td>
                     </tr>
                     <tr>
-                      <td className="py-2">30 Days Ago Rate</td>
-                      <td className="py-2">{report.month_rate}</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">30 Days Ago Rate</td>
+                      <td className="py-2 text-zinc-800 dark:text-zinc-200">{report.month_rate}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -332,9 +335,9 @@ export default async function SlugPage({
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="py-2 text-left font-medium">Market</th>
-                    <th className="py-2 text-left font-medium">Piece</th>
-                    <th className="py-2 text-left font-medium">Tray</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Market</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Piece</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Tray</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -348,9 +351,9 @@ export default async function SlugPage({
                   ).map(([label, row]) =>
                     row ? (
                       <tr key={label} className="border-b border-zinc-100 dark:border-zinc-800">
-                        <td className="py-2">{label}</td>
-                        <td className="py-2">{row.piece}</td>
-                        <td className="py-2">{row.tray}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{label}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{row.piece}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{row.tray}</td>
                       </tr>
                     ) : null
                   )}

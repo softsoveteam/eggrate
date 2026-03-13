@@ -23,6 +23,7 @@ export function RateTableWithLoadMore({
   basePath = "",
   tableHeaders = { piece: "Piece", tray: "Tray", hundred: "100 pcs", peti: "Peti" },
   loadMoreText = "Load more (%d more)",
+  cityLinkSuffix = "-egg-rate",
 }: {
   rateList: RateRow[];
   isDate: boolean;
@@ -31,6 +32,8 @@ export function RateTableWithLoadMore({
   basePath?: string;
   tableHeaders?: { piece: string; tray: string; hundred: string; peti: string };
   loadMoreText?: string;
+  /** Suffix for city links when isDate is false (e.g. "-egg-rate-today"). Default "-egg-rate". */
+  cityLinkSuffix?: string;
 }) {
   const [showAll, setShowAll] = useState(false);
   const visibleRows = showAll ? rateList : rateList.slice(0, INITIAL_ROWS);
@@ -48,10 +51,10 @@ export function RateTableWithLoadMore({
               <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
                 {isDate ? cityLabel : dateLabel}
               </th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.piece}</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.tray}</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.hundred}</th>
-              <th className="px-4 py-3 text-left font-semibold uppercase">{tableHeaders.peti}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">{tableHeaders.piece}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">{tableHeaders.tray}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">{tableHeaders.hundred}</th>
+              <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">{tableHeaders.peti}</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +64,7 @@ export function RateTableWithLoadMore({
                 ? `${prefix}/${toSlug(keyVal)}-egg-rate-today`
                 : i === 0
                   ? prefix || "/"
-                  : `${prefix}/${toSlug(keyVal)}-egg-rate`;
+                  : `${prefix}/${toSlug(keyVal)}${cityLinkSuffix}`;
               return (
                 <tr
                   key={i}
@@ -75,10 +78,10 @@ export function RateTableWithLoadMore({
                       {(keyVal ?? "").replace(/\b\w/g, (c) => c.toUpperCase())}
                     </Link>
                   </th>
-                  <td className="px-4 py-3">{row.piece}</td>
-                  <td className="px-4 py-3">{row.tray}</td>
-                  <td className="px-4 py-3">{row.hundred_pcs}</td>
-                  <td className="px-4 py-3">{row.peti}</td>
+                  <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.piece}</td>
+                  <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.tray}</td>
+                  <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.hundred_pcs}</td>
+                  <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.peti}</td>
                 </tr>
               );
             })}

@@ -38,18 +38,18 @@ export function ChartDataSSR({
             <h4 className="mb-2 font-medium text-zinc-700 dark:text-zinc-300">
               {chartOneLabel}
             </h4>
-            <table className="w-full border-collapse text-zinc-600 dark:text-zinc-400">
+            <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                  <th className="py-1 text-left font-medium">Date / City</th>
-                  <th className="py-1 text-right font-medium">Egg price (₹)</th>
+                  <th className="py-1 text-left font-medium text-zinc-700 dark:text-zinc-300">Date / City</th>
+                  <th className="py-1 text-right font-medium text-zinc-700 dark:text-zinc-300">Egg price (₹)</th>
                 </tr>
               </thead>
               <tbody>
                 {chartOne.labels.map((label, i) => (
                   <tr key={i} className="border-b border-zinc-100 dark:border-zinc-800">
-                    <td className="py-1">{label}</td>
-                    <td className="py-1 text-right">₹{chartOne.data[i] ?? 0}</td>
+                    <td className="py-1 text-zinc-800 dark:text-zinc-200">{label}</td>
+                    <td className="py-1 text-right text-zinc-800 dark:text-zinc-200">₹{chartOne.data[i] ?? 0}</td>
                   </tr>
                 ))}
               </tbody>
@@ -61,7 +61,7 @@ export function ChartDataSSR({
             <h4 className="mb-2 font-medium text-zinc-700 dark:text-zinc-300">
               {chartTwoLabel}
             </h4>
-            <p className="text-zinc-600 dark:text-zinc-400">
+            <p className="text-zinc-800 dark:text-zinc-200">
               {chartTwo.labels[0]}: ₹{chartTwo.data[0] ?? "—"} · {chartTwo.labels[1]}: ₹
               {chartTwo.data[1] ?? "—"}
             </p>

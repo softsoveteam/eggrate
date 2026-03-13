@@ -101,8 +101,13 @@ export default async function RootLayout({
   const locale = headersList.get("x-next-locale") ?? "en";
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark");else document.documentElement.classList.remove("dark");})();`,
+          }}
+        />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -117,10 +122,10 @@ export default async function RootLayout({
         </a>
         <PWAProvider />
         <Header />
-        <main id="main-content" className="flex-1" role="main">
+        <main id="main-content" className="flex-1 bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100" role="main">
           {children}
         </main>
-        <Footer />
+        <Footer locale={locale} />
         <BackToTop />
       </body>
     </html>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { getPreDay, isDateSlug, getSiteDomain } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Top-level popular city links (shown in nav bar)
 const POPULAR_TOP = [
@@ -229,8 +230,10 @@ export function Header() {
                 </div>
               )}
             </div>
+            <ThemeToggle className="shrink-0" />
           </nav>
           <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setMobileMenuOpen((o) => !o)}
@@ -339,6 +342,12 @@ export function Header() {
             <Link href={hindiUrl} onClick={closeMobileMenu} className="block rounded-lg px-4 py-3 text-base font-medium text-zinc-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-zinc-300 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-300">
               हिंदी
             </Link>
+          </div>
+          <div className="mt-2 border-t border-zinc-200 pt-3 dark:border-zinc-700">
+            <span className="mb-2 block px-4 text-xs font-medium uppercase text-zinc-500 dark:text-zinc-400">Theme</span>
+            <div className="px-4 py-2">
+              <ThemeToggle className="h-10 w-10" />
+            </div>
           </div>
         </nav>
       </div>

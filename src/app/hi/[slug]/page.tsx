@@ -88,9 +88,9 @@ function parseChartTwo(block: EggDataBlock) {
   return { labels, data, min: Math.max(0, min), max };
 }
 
-function buildChartOneFromTable(rateList: { date?: string; piece: string }[], _isDateView: boolean) {
+function buildChartOneFromTable(rateList: { date?: string; city?: string; piece: string }[], _isDateView: boolean) {
   if (!rateList?.length) return null;
-  const labels = rateList.map((r) => (r.date ?? "").trim()).filter(Boolean);
+  const labels = rateList.map((r) => (r.date ?? r.city ?? "").trim()).filter(Boolean);
   const data = rateList.map((r) => parseFloat(String(r.piece).replace(/[₹\s]/g, "")) || 0);
   if (labels.length === 0 || data.every((d) => d === 0)) return null;
   const values = data.filter((n) => n > 0);
@@ -210,7 +210,10 @@ export default async function HiSlugPage({ params }: { params: Promise<{ slug: s
   const stateList = block.states ?? [];
   const cityList = block.citys ?? [];
   const report = block.report?.[0];
-  const chartOne = parseChartOne(block) ?? buildChartOneFromTable(rateList, isDate);
+  const parsedChartOne = parseChartOne(block);
+  const tableChartOne = buildChartOneFromTable(rateList, isDate);
+  const hasValidData = (c: { data: number[] } | null) => c && c.data.some((d) => d > 0);
+  const chartOne = hasValidData(tableChartOne) ? tableChartOne : (hasValidData(parsedChartOne) ? parsedChartOne : tableChartOne ?? parsedChartOne);
   const chartTwo = parseChartTwo(block) ?? buildChartTwoFromTable(rateList);
   const chartTwoLowHigh = chartTwo?.labels ?? [];
   const domain = getSiteDomain();

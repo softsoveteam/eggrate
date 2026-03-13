@@ -142,7 +142,10 @@ export default async function HomePage() {
   const rateList = block.table;
   const stateList = block.states ?? [];
   const market = block.market ?? [];
-  const chartOne = parseChartOne(block) ?? buildChartOneFromTable(rateList);
+  const parsedChartOne = parseChartOne(block);
+  const tableChartOne = buildChartOneFromTable(rateList);
+  const hasValidData = (c: { data: number[] } | null) => c && c.data.some((d) => d > 0);
+  const chartOne = hasValidData(tableChartOne) ? tableChartOne : (hasValidData(parsedChartOne) ? parsedChartOne : tableChartOne ?? parsedChartOne);
   const chartTwo = parseChartTwo(block) ?? buildChartTwoFromTable(rateList);
   const chartTwoLowHigh = chartTwo?.labels ?? [];
   const domain = getSiteDomain();
@@ -199,18 +202,10 @@ export default async function HomePage() {
                     <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
                       City
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
-                      Piece
-                    </th>
-                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
-                      Tray
-                    </th>
-                    <th className="w-16 px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
-                      100 pcs
-                    </th>
-                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">
-                      Peti
-                    </th>
+                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">Piece</th>
+                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">Tray</th>
+                    <th className="w-16 px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">100 pcs</th>
+                    <th className="px-4 py-3 text-left font-semibold uppercase text-zinc-700 dark:text-zinc-300">Peti</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -227,10 +222,10 @@ export default async function HomePage() {
                           {(row.date ?? row.city ?? "").replace(/\b\w/g, (c) => c.toUpperCase())}
                         </Link>
                       </th>
-                      <td className="px-4 py-3">{row.piece}</td>
-                      <td className="px-4 py-3">{row.tray}</td>
-                      <td className="px-4 py-3">{row.hundred_pcs}</td>
-                      <td className="px-4 py-3">{row.peti}</td>
+                      <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.piece}</td>
+                      <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.tray}</td>
+                      <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.hundred_pcs}</td>
+                      <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200">{row.peti}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -246,9 +241,9 @@ export default async function HomePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="py-2 text-left font-medium">Market</th>
-                    <th className="py-2 text-left font-medium">Piece</th>
-                    <th className="py-2 text-left font-medium">Tray</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Market</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Piece</th>
+                    <th className="py-2 text-left font-medium text-zinc-700 dark:text-zinc-300">Tray</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -262,9 +257,9 @@ export default async function HomePage() {
                   ).map(([label, row]) =>
                     row ? (
                       <tr key={label} className="border-b border-zinc-100 dark:border-zinc-800">
-                        <td className="py-2">{label}</td>
-                        <td className="py-2">{row.piece}</td>
-                        <td className="py-2">{row.tray}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{label}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{row.piece}</td>
+                        <td className="py-2 text-zinc-800 dark:text-zinc-200">{row.tray}</td>
                       </tr>
                     ) : null
                   )}
